@@ -1,4 +1,4 @@
-// script.js
+
 
 document.getElementById('searchBtn').addEventListener('click', function() {
     const movieName = document.getElementById('search').value;
