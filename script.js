@@ -1,8 +1,8 @@
-const apiKey = '4e01bc1be90197f061eca835f0aad603'; 
+const apiKey = '4e01bc1be90197f061eca835f0aad603';
 const searchButton = document.getElementById('searchBtn');
 const searchInput = document.getElementById('search');
 const resultsContainer = document.getElementById('results');
-
+const recommendationContainer = document.getElementById('recommendation-container');
 
 searchButton.addEventListener('click', () => {
     const query = searchInput.value.trim();
@@ -12,7 +12,6 @@ searchButton.addEventListener('click', () => {
         alert('Please enter a movie name');
     }
 });
-
 
 function searchMovies(query) {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`;
@@ -25,7 +24,6 @@ function searchMovies(query) {
         });
 }
 
-
 function displayMovies(movies) {
     resultsContainer.innerHTML = ''; 
     
@@ -34,7 +32,6 @@ function displayMovies(movies) {
         return;
     }
 
-    
     movies.forEach(movie => {
         const movieElement = document.createElement('div');
         movieElement.classList.add('movie');
@@ -45,16 +42,18 @@ function displayMovies(movies) {
             <img src="${posterPath}" alt="${movie.title} poster">
             <h3>${movie.title}</h3>
             <p>Release Date: ${movie.release_date || 'N/A'}</p>
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>${movie.overview || 'No overview available.'}</p>
+            </div>
         `;
         
         resultsContainer.appendChild(movieElement);
     });
 }
-const API_KEY = '3fd2be6f0c70a2a598f084ddfb75487c';
-const RECOMMEND_API_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&page=1`;
-const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
-const recommendationContainer = document.getElementById('recommendation-container');
 
+const RECOMMEND_API_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=1`;
+const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
 
 getRecommendedMovies(RECOMMEND_API_URL);
 
@@ -75,40 +74,10 @@ function showRecommendedMovies(movies) {
             <img src="${IMG_PATH + poster_path}" alt="${title}">
             <div class="overview">
                 <h3>Overview</h3>
-                <p>${overview}</p>
+                <p>${overview || 'No overview available.'}</p>
             </div>
         `;
 
         recommendationContainer.appendChild(movieEl);
-    });
-}
-function displayMovies(movies) {
-    resultsContainer.innerHTML = ''; 
-
-    if (movies.length === 0) {
-        resultsContainer.innerHTML = '<p>No movies found. Try another search.</p>';
-        return;
-    }
-
-    
-    movies.forEach(movie => {
-        const movieElement = document.createElement('div');
-        movieElement.classList.add('movie');
-
-        const posterPath = movie.poster_path 
-            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` 
-            : 'placeholder.jpg'; 
-        
-        movieElement.innerHTML = `
-            <img src="${posterPath}" alt="${movie.title} poster">
-            <h3>${movie.title}</h3>
-            <p>Release Date: ${movie.release_date || 'N/A'}</p>
-            <div class="overview">
-                <h3>Overview</h3>
-                <p>${movie.overview || 'No overview available.'}</p>
-            </div>
-        `;
-
-        resultsContainer.appendChild(movieElement);
     });
 }
